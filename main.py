@@ -19,15 +19,17 @@ class Client(commands.Bot):
         for filename in os.listdir(cogs_folder):
             if filename.endswith(".py"):
                 await bot.load_extension(f"cogs.{filename[:-3]}")
-        await bot.tree.sync()
         print("Loaded cogs")
 
 bot = Client()
+
+
 
 @bot.event 
 async def on_ready():  # When the bot is ready
     print("I'm in")
     print(bot.user)  # Prints the bot's username and identifier
+    # await bot.tree.sync()
   
 bot.remove_command('help')
 bot.current_users = set()

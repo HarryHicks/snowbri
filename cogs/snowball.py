@@ -14,7 +14,7 @@ class snowball(commands.Cog):
         self.client = client
 
 
-    @commands.hybrid_command()
+    @commands.hybrid_command(name="collect", with_app_command = True, description = "Collect a snowball to lob at a friend!")
     # The user can collect only 1 snowball every 30 seconds
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def collect(self, ctx):
@@ -48,7 +48,7 @@ class snowball(commands.Cog):
             await ctx.send(embed=embed)
 
    
-    @commands.hybrid_command()
+    @commands.hybrid_command(name="throw", with_app_command = True, description = "Let your snowball you collected fly!")
     async def throw(self, ctx, user: discord.Member = None):
         if ctx.author in self.client.current_users:
             # If the author doesn't have 0 snowballs
@@ -141,14 +141,15 @@ class snowball(commands.Cog):
                                 query_user = {"_id": user.id}
                                 ko_query = collection.find(query_user)
                                 for result_ko in ko_query:
-                                    ko_score = result_ko["ko"]
-                                    ko_score = ko_score + 1
+                                    global koscore
+                                    koscore = result_ko["ko"]
+                                    koscore += 1
 
                                 collection.update_one(
                                     {"_id": ctx.author.id}, {"$set": {"hit": hit_score}}
                                 )
                                 collection.update_one(
-                                    {"_id": user.id}, {"$set": {"ko": ko_score}}
+                                    {"_id": user.id}, {"$set": {"ko": koscore}}
                                 )
                             else:  # If the random outcome comes to be miss
                                 embed = discord.Embed(
@@ -189,7 +190,7 @@ class snowball(commands.Cog):
 
     
 
-    @commands.hybrid_command()
+    @commands.hybrid_command(name="stats", with_app_command = True, description = "View the statistics of someone. Don't include a member to check yours.")
     async def stats(self, ctx, user: discord.Member = None):
         if user is None:  # If the user is not  been mentioned => The author wants to see his stats
             stats = collection.find_one({"_id": ctx.author.id})
