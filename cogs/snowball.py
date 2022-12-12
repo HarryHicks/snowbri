@@ -5,18 +5,21 @@ from pymongo import MongoClient
 import random
 
 # MongoDB configuration
-cluster = MongoClient("161.97.184.243:25019")
+cluster = MongoClient("") # selfhosted mongoDB from pterodactyl egg
 db = cluster["snowball"]
 collection = db["leaderboard"]
+
 
 class snowball(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
-    @commands.hybrid_command(name="collect", with_app_command = True, description = "Collect a snowball to lob at a friend!")
+    @commands.hybrid_command(
+        name="collect",
+        with_app_command=True,
+        description="Collect a snowball to lob at a friend!",
+    )
     # The user can collect only 1 snowball every 30 seconds
-    @commands.cooldown(1, 30, commands.BucketType.user)
     async def collect(self, ctx):
         if ctx.author not in self.client.current_users:
             author = ctx.message.author.id
@@ -28,9 +31,7 @@ class snowball(commands.Cog):
                 description="Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have 1 of them—let 'em fly!",
                 color=discord.Color.from_rgb(89, 100, 242),
             )
-            embed.set_image(
-                url="https://images-ext-1.discordapp.net/external/E9ROIdIhkUg5m5OJrxncIKnjM8Gqe4FPcuzi-Bvh_hk/https/c.tenor.com/NBqwJNBaSXUAAAAC/playing-with-snow-piu-piu.gif?width=400&height=225"
-            )
+            
             await ctx.send(embed=embed)
         else:
             author = ctx.message.author.id
@@ -42,13 +43,14 @@ class snowball(commands.Cog):
                 description=f"Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have {self.client.counter[author]} of them—let 'em fly!",
                 color=discord.Color.from_rgb(89, 100, 242),
             )
-            embed.set_image(
-                url="https://images-ext-1.discordapp.net/external/E9ROIdIhkUg5m5OJrxncIKnjM8Gqe4FPcuzi-Bvh_hk/https/c.tenor.com/NBqwJNBaSXUAAAAC/playing-with-snow-piu-piu.gif?width=400&height=225"
-            )
+            
             await ctx.send(embed=embed)
 
-   
-    @commands.hybrid_command(name="throw", with_app_command = True, description = "Let your snowball you collected fly!")
+    @commands.hybrid_command(
+        name="throw",
+        with_app_command=True,
+        description="Let your snowball you collected fly!",
+    )
     async def throw(self, ctx, user: discord.Member = None):
         if ctx.author in self.client.current_users:
             # If the author doesn't have 0 snowballs
@@ -66,7 +68,7 @@ class snowball(commands.Cog):
                         user.id == self.client.user.id
                     ):  # If the mentioned user is the bot itself
                         embed = discord.Embed(
-                            description="Why you even try to smush the face of your favourite bot <:catCry:919806075019087933>"
+                            description="Why you even try to smush the face of your favourite bot! "
                         )
                         await ctx.send(embed=embed)
                     else:  # The mentioned user is not the author and the bot
@@ -78,13 +80,14 @@ class snowball(commands.Cog):
                             if (
                                 outcome == "hit"
                             ):  # If the random outcome comes to be hit
+                                success = [f"Thunk! {user.mention} got pelted with a snowball... you gonna take that lying down?", f"Sound the trumpets of war (doot doot)—the reckoning has begun. {user.mention} got hit with a snowball!", f"{user.mention} wasn’t even paying attention to chat… and they got smacked by a snowball anyways! Hey {user.mention} — use /collect, then /throw to get ‘em back!", f"Pow, right in the kisser! {user.mention} got slugged by a snowball."]
+                             
+                                getsuccess = random.choice(success)
                                 embed = discord.Embed(
-                                    description=f"<@{user.id}> wasn't even paying attention to chat… and they got smacked by a snowball anyways! Hey <@{user.id}> — use `/collect`, then `/throw` to get 'em back!",
+                                    description=getsuccess,
                                     color=discord.Color.from_rgb(97, 254, 96),
                                 )
-                                embed.set_image(
-                                    url="https://media.giphy.com/media/W5TBt9C4VVWw2BOOjP/giphy.gif"
-                                )
+                                
                                 await ctx.send(embed=embed)
                                 self.client.counter[ctx.message.author.id] -= 1
                                 post_author = {
@@ -102,13 +105,13 @@ class snowball(commands.Cog):
                                 }
                                 collection.insert_one(post_user)
                             else:  # If the random outcome comes to be miss
+                                fail = [f"There were just too quick! You missed!", f"You throw a snowball with all your might, just for it to land a few inches from your feet. You missed! Maybe you should work on your arm strength a bit...", "A shoebill blocked your shot—damn those stinky shoebills. You missed!", "Whoosh! You missed, but there’s always another snowball. /collect some more and show ‘em what for!"]
+                                failget = random.choice(fail)
                                 embed = discord.Embed(
-                                    description="You throw a snowball with all your might, just for it to land a few inches from your feet. You missed! Maybe you should work on your arm strength a bit...",
+                                    description=failget,
                                     color=discord.Color.from_rgb(255, 167, 1),
                                 )
-                                embed.set_image(
-                                    url="https://media.giphy.com/media/ukSGgGljsKRXdiHb0h/giphy.gif"
-                                )
+                                
                                 await ctx.send(embed=embed)
                                 self.client.counter[ctx.message.author.id] -= 1
                                 post_author = {
@@ -123,13 +126,14 @@ class snowball(commands.Cog):
                             if (
                                 outcome == "hit"
                             ):  # If the random outcome comes to be hit
+                                success = [f"Thunk! {user.mention} got pelted with a snowball... you gonna take that lying down?", f"Sound the trumpets of war (doot doot)—the reckoning has begun. {user.mention} got hit with a snowball!", f"{user.mention} wasn’t even paying attention to chat… and they got smacked by a snowball anyways! Hey {user.mention} — use /collect, then /throw to get ‘em back!", f"Pow, right in the kisser! {user.mention} got slugged by a snowball."]
+                             
+                                getsuccess = random.choice(success)
                                 embed = discord.Embed(
-                                    description=f"<@{user.id}> wasn't even paying attention to chat… and they got smacked by a snowball anyways! Hey <@{user.id}> — use `/collect`, then `/throw` to get 'em back!",
+                                    description=getsuccess,
                                     color=discord.Color.from_rgb(97, 254, 96),
                                 )
-                                embed.set_image(
-                                    url="https://media.giphy.com/media/W5TBt9C4VVWw2BOOjP/giphy.gif"
-                                )
+                                
                                 await ctx.send(embed=embed)
                                 self.client.counter[ctx.message.author.id] -= 1
                                 query_author = {"_id": ctx.author.id}
@@ -152,13 +156,13 @@ class snowball(commands.Cog):
                                     {"_id": user.id}, {"$set": {"ko": koscore}}
                                 )
                             else:  # If the random outcome comes to be miss
+                                fail = [f"There were just too quick! You missed!", f"You throw a snowball with all your might, just for it to land a few inches from your feet. You missed! Maybe you should work on your arm strength a bit...", "A shoebill blocked your shot—damn those stinky shoebills. You missed!", "Whoosh! You missed, but there’s always another snowball. /collect some more and show ‘em what for!"]
+                                failget = random.choice(fail)
                                 embed = discord.Embed(
-                                    description="You throw a snowball with all your might, just for it to land a few inches from your feet. You missed! Maybe you should work on your arm strength a bit...",
+                                    description=failget,
                                     color=discord.Color.from_rgb(255, 167, 1),
                                 )
-                                embed.set_image(
-                                    url="https://media.giphy.com/media/ukSGgGljsKRXdiHb0h/giphy.gif"
-                                )
+                                
                                 await ctx.send(embed=embed)
                                 self.client.counter[ctx.message.author.id] -= 1
                                 query_author = {"_id": ctx.author.id}
@@ -173,7 +177,7 @@ class snowball(commands.Cog):
                                 )
                 else:  # The user isn't mentioned
                     embed = discord.Embed(
-                        description="<:cryangry:919806697407664169> Mention a fellow server member to smush their face",
+                        description="Mention a fellow server member to smush their face",
                         color=discord.Color.from_rgb(255, 1, 1),
                     )
                     await ctx.send(embed=embed)
@@ -186,30 +190,38 @@ class snowball(commands.Cog):
         else:
             return
 
-
-
-    
-
-    @commands.hybrid_command(name="stats", with_app_command = True, description = "View the statistics of someone. Don't include a member to check yours.")
+    @commands.hybrid_command(
+        name="stats",
+        with_app_command=True,
+        description="View the statistics of someone. Don't include a member to check yours.",
+    )
     async def stats(self, ctx, user: discord.Member = None):
-        if user is None:  # If the user is not  been mentioned => The author wants to see his stats
+        if (
+            user is None
+        ):  # If the user is not  been mentioned => The author wants to see his stats
             stats = collection.find_one({"_id": ctx.author.id})
             embed = discord.Embed(
-                title=f"Stats of {ctx.author.name}", color=discord.Color.from_rgb(88, 101, 242))
+                title=f"Stats of {ctx.author.name}",
+                color=discord.Color.from_rgb(88, 101, 242),
+            )
             embed.add_field(name="Hits", value=stats["hit"], inline=True)
             embed.add_field(name="Misses", value=stats["miss"], inline=True)
-            embed.add_field(name="KO's", value=stats["ko"], inline=True)
             await ctx.send(embed=embed)
         else:  # If the user is been mentioned => The wants to check the stats of other user
             try:  # The user is there in the database
                 stats = collection.find_one({"_id": user.id})
                 embed = discord.Embed(
-                    title=f"Stats of {user.name}", color=discord.Color.from_rgb(88, 101, 242))
+                    title=f"Stats of {user.name}",
+                    color=discord.Color.from_rgb(88, 101, 242),
+                )
                 embed.add_field(name="Hits", value=stats["hit"], inline=True)
                 embed.add_field(name="Misses", value=stats["miss"], inline=True)
-                embed.add_field(name="KO's", value=stats["ko"], inline=True)
                 await ctx.send(embed=embed)
             except TypeError:  # The user isn't there in the database
-                await ctx.send("That player doesn't have any stats <:catAngry:919806075606286386>")
+                await ctx.send(
+                    "That player doesn't have any stats!"
+                )
+
+
 async def setup(client):
     await client.add_cog(snowball(client))
