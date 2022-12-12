@@ -8,36 +8,40 @@ intents.message_content = True
 class Client(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix = commands.when_mentioned_or("!"),
+            command_prefix = commands.when_mentioned_or("snowbri "),
             intents = intents,
             help_command = commands.DefaultHelpCommand(dm_help=True)
         )
     
-    async def setup_hook(self): #overwriting a handler
-        print(f"\033[31mLogged in as {bot.user}\033[39m")
+    async def setup_hook(self): 
+        print(f"\033[96mLogged in as {bot.user}\033[00m")
+        
         cogs_folder = f"{os.path.abspath(os.path.dirname(__file__))}/cogs"
         for filename in os.listdir(cogs_folder):
             if filename.endswith(".py"):
                 await bot.load_extension(f"cogs.{filename[:-3]}")
+                print(f"\033[97m    - Loaded {filename[:-3]}\033[00m")
+                
         print("Loaded cogs")
 
 bot = Client()
-
-
+bot.remove_command('help')
 
 @bot.event 
 async def on_ready():  # When the bot is ready
     print("I'm in")
     print(bot.user)  # Prints the bot's username and identifier
+    
+    await bot.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing, name="with snowballs! ❄️"))
+    
+    # Remove comment when need to sync new commands, otherwise ratelimited!
     # await bot.tree.sync()
-  
-bot.remove_command('help')
+
+bot.snowball = ["hit", "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss"] # 5/11 chance of hit
 bot.current_users = set()
-bot.counter = {}  # This is the dict which stores the number of snowball the user have
-# This is the list which returns random output, which decides whether it's a hit or not
-bot.snowball = ["hit", "hit", "miss"]
+bot.counter = {}  
 
 
+token = "" # don't you dare...
 
-token = os.environ.get("DISCORD_BOT_SECRET") 
-bot.run(token)  # Starts the bot
+bot.run(token)
