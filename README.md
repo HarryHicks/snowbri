@@ -20,3 +20,12 @@ So, to the judges, and to anyone wanting to add the bot. I hope you enjoy it, an
 | /collect | You collect a snowball, as you prepare to lob it at your friend! |
 | /throw [member]  | Pick your target carefully and throw the snowball you collected at them! |
 | /stats [member]  | Include no member mention to check your own, or mention someone else to see their hit and miss stats! |
+
+
+## Developer information
+
+I decided to use hybrid Dpy commands over pure slash Dpy or Djs for multiple reasons:
+
+- Hybrid commands -> allows the bot to be used for slash commands, or using the prefix "snowbri " should slash commands not be allowed for specific users in the guild. 
+
+- Dpy > Djs -> I have been using Dpy and Python for much longer than I have JavaScript and Djs. Instead of developing something in a restircted time limit (5-8 days before the SnowCodes, and to get it out in time for early December for max use), I decided to build the bot in something I am more comfortable with, yet is able to be developed to be more complex than the other bot.
