@@ -41,6 +41,30 @@ bot.snowball = ["hit", "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss
 bot.current_users = set()
 bot.counter = {}  
 
+@bot.event
+async def on_guild_join(guild):
+    # get all server integrations
+    integrations = await guild.integrations()
+
+    for integration in integrations:
+        if isinstance(integration, discord.BotIntegration):
+            if integration.application.user.name == bot.user.name:
+                bot_inviter = integration.user# returns a discord.User object
+                
+                # send message to the inviter to say thank you
+                await bot_inviter.send("""Thank you for inviting Snowbri!
+                
+                Please make sure to give your members the Use Application Commands so they are able to interact with the bot, or let them use the **snowbri** prefix.
+                
+                The main commands are:
+                • /collect
+                • /throw **mention member**
+• /stats
+• /invite
+
+Thanks again, and with Hicksy#2047s regards, I hope you enjoy Snowbri!""")
+                break
+
 
 token = "" # don't you dare...
 
