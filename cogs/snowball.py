@@ -5,7 +5,7 @@ from pymongo import MongoClient
 import random
 
 # MongoDB configuration
-cluster = MongoClient("") # selfhosted mongoDB from pterodactyl egg
+cluster = MongoClient("161.97.184.243:25019")
 db = cluster["snowball"]
 collection = db["leaderboard"]
 
@@ -28,7 +28,7 @@ class snowball(commands.Cog):
             self.client.counter[author] = 1
 
             embed = discord.Embed(
-                description="Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have 1 of them—let 'em fly!",
+                description="Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have 1 of them—let 'em fly! <wumpus_snow:1054135617056940042>",
                 color=discord.Color.from_rgb(89, 100, 242),
             )
             
@@ -40,7 +40,7 @@ class snowball(commands.Cog):
             self.client.counter[author] += 1
 
             embed = discord.Embed(
-                description=f"Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have {self.client.counter[author]} of them—let 'em fly!",
+                description=f"Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have {self.client.counter[author]} of them—let 'em fly! <wumpus_snow:1054135617056940042>",
                 color=discord.Color.from_rgb(89, 100, 242),
             )
             
@@ -82,7 +82,7 @@ class snowball(commands.Cog):
                             ):  # If the random outcome comes to be hit
                                 success = [f"Thunk! {user.mention} got pelted with a snowball... you gonna take that lying down?", f"Sound the trumpets of war (doot doot)—the reckoning has begun. {user.mention} got hit with a snowball!", f"{user.mention} wasn’t even paying attention to chat… and they got smacked by a snowball anyways! Hey {user.mention} — use /collect, then /throw to get ‘em back!", f"Pow, right in the kisser! {user.mention} got slugged by a snowball."]
                              
-                                getsuccess = random.choice(success)
+                                getsuccess = random.choice(success) + " <:blobsnowball:1054134237286113340>"
                                 embed = discord.Embed(
                                     description=getsuccess,
                                     color=discord.Color.from_rgb(97, 254, 96),
@@ -128,7 +128,7 @@ class snowball(commands.Cog):
                             ):  # If the random outcome comes to be hit
                                 success = [f"Thunk! {user.mention} got pelted with a snowball... you gonna take that lying down?", f"Sound the trumpets of war (doot doot)—the reckoning has begun. {user.mention} got hit with a snowball!", f"{user.mention} wasn’t even paying attention to chat… and they got smacked by a snowball anyways! Hey {user.mention} — use /collect, then /throw to get ‘em back!", f"Pow, right in the kisser! {user.mention} got slugged by a snowball."]
                              
-                                getsuccess = random.choice(success)
+                                getsuccess = random.choice(success) + " <:blobsnowball:1054134237286113340>"
                                 embed = discord.Embed(
                                     description=getsuccess,
                                     color=discord.Color.from_rgb(97, 254, 96),
