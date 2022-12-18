@@ -5,7 +5,7 @@ from pymongo import MongoClient
 import random
 
 # MongoDB configuration
-cluster = MongoClient("161.97.184.243:25019")
+cluster = MongoClient("")
 db = cluster["snowball"]
 collection = db["leaderboard"]
 
@@ -29,7 +29,7 @@ class snowball(commands.Cog):
 
             embed = discord.Embed(
                 description="Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have 1 of them—let 'em fly! <wumpus_snow:1054135617056940042>",
-                color=discord.Color.from_rgb(89, 100, 242),
+                color=discord.Color.from_rgb(25, 255, 255),
             )
             
             await ctx.send(embed=embed)
@@ -41,7 +41,7 @@ class snowball(commands.Cog):
 
             embed = discord.Embed(
                 description=f"Slapping on your warmest pair of gloves, you gathered some snow and started shaping some snowballs. You now have {self.client.counter[author]} of them—let 'em fly! <wumpus_snow:1054135617056940042>",
-                color=discord.Color.from_rgb(89, 100, 242),
+                color=discord.Color.from_rgb(25, 255, 255),
             )
             
             await ctx.send(embed=embed)
@@ -68,7 +68,7 @@ class snowball(commands.Cog):
                         user.id == self.client.user.id
                     ):  # If the mentioned user is the bot itself
                         embed = discord.Embed(
-                            description="Why you even try to smush the face of your favourite bot! "
+                            description="Why you even try to smush the face of your favourite bot! :rage:"
                         )
                         await ctx.send(embed=embed)
                     else:  # The mentioned user is not the author and the bot
@@ -85,7 +85,7 @@ class snowball(commands.Cog):
                                 getsuccess = random.choice(success) + " <:blobsnowball:1054134237286113340>"
                                 embed = discord.Embed(
                                     description=getsuccess,
-                                    color=discord.Color.from_rgb(97, 254, 96),
+                                    color=discord.Color.from_rgb(64, 128, 0),
                                 )
                                 
                                 await ctx.send(embed=embed)
@@ -109,7 +109,7 @@ class snowball(commands.Cog):
                                 failget = random.choice(fail)
                                 embed = discord.Embed(
                                     description=failget,
-                                    color=discord.Color.from_rgb(255, 167, 1),
+                                    color=discord.Color.from_rgb(153, 25, 0),
                                 )
                                 
                                 await ctx.send(embed=embed)
@@ -160,7 +160,7 @@ class snowball(commands.Cog):
                                 failget = random.choice(fail)
                                 embed = discord.Embed(
                                     description=failget,
-                                    color=discord.Color.from_rgb(255, 167, 1),
+                                    color=discord.Color.from_rgb(153, 25, 0),
                                 )
                                 
                                 await ctx.send(embed=embed)
